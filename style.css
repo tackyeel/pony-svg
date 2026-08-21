@@ -1,0 +1,231 @@
+:root {
+  --ink: #332b3b;
+  --purple: #7754b8;
+  --page-background: #ffffff;
+  --control-background: #ffffff;
+  --menu-background: #ffffff;
+  --menu-hover: #f4edff;
+  --border: rgba(70, 55, 82, 0.16);
+  --shadow: 0 10px 28px rgba(34, 24, 43, 0.12);
+  --muted: rgba(51, 43, 59, 0.65);
+}
+
+html[data-theme="dark"] {
+  --ink: #f2edf5;
+  --purple: #c1a5ff;
+  --page-background: #17141b;
+  --control-background: #27222d;
+  --menu-background: #27222d;
+  --menu-hover: #3a3046;
+  --border: rgba(255, 255, 255, 0.13);
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+  --muted: rgba(242, 237, 245, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  background: var(--page-background);
+  overflow-x: hidden;
+  transition: color 220ms ease, background-color 220ms ease;
+}
+
+.site-header {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px clamp(20px, 4vw, 56px);
+}
+
+.pony-picker {
+  position: relative;
+}
+
+.choose-button,
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 17px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  background: var(--control-background);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.choose-button:hover,
+.choose-button:focus-visible,
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  outline: none;
+}
+
+.theme-icon {
+  width: 1em;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.button-arrow {
+  transition: transform 220ms ease;
+}
+
+.choose-button[aria-expanded="true"] .button-arrow {
+  transform: rotate(180deg);
+}
+
+.pony-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: max-content;
+  min-width: 190px;
+  max-height: min(55vh, 420px);
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--menu-background);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  overflow-y: auto;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 180ms ease, transform 180ms ease;
+  backdrop-filter: blur(16px);
+}
+
+.pony-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.pony-option {
+  display: block;
+  width: 100%;
+  padding: 11px 13px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.pony-option:hover,
+.pony-option:focus-visible,
+.pony-option.active {
+  color: var(--purple);
+  background: var(--menu-hover);
+  outline: none;
+}
+
+.gallery {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 110px 24px 48px;
+}
+
+.pony-stage {
+  width: min(760px, 92vw);
+  text-align: center;
+}
+
+.pony-frame {
+  position: relative;
+  display: grid;
+  min-height: min(68vh, 650px);
+  padding: clamp(22px, 5vw, 48px);
+  place-items: center;
+  border: 0;
+  background: transparent;
+}
+
+.pony-frame svg {
+  display: block;
+  width: 100%;
+  max-width: 590px;
+  max-height: 58vh;
+  height: auto;
+  filter: drop-shadow(0 16px 14px rgba(80, 55, 112, 0.14));
+  transition: transform 200ms ease;
+}
+
+.pony-frame object {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(0.62);
+  transform-origin: center;
+}
+
+@media (max-width: 600px) {
+  .pony-frame object {
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+}
+
+.pony-frame svg.boop,
+.pony-frame object.boop {
+  animation: boop 420ms ease;
+}
+
+.status {
+  min-height: 1.3em;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+@keyframes boop {
+  35% { transform: scale(0.96) rotate(-1deg); }
+  70% { transform: scale(1.03) rotate(1deg); }
+}
+
+@media (max-width: 600px) {
+  .site-header { padding: 16px; }
+  .choose-button,
+  .theme-toggle { padding: 10px 14px; }
+  .pony-frame { min-height: 58vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

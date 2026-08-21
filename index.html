@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A lightweight gallery for pony SVG artwork.">
+  <title>Pony SVG Gallery</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">
+      <span class="theme-icon" aria-hidden="true">☾</span>
+      <span class="theme-label">Night</span>
+    </button>
+
+    <div class="pony-picker">
+      <button
+        id="choose-pony"
+        class="choose-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="pony-menu"
+      >
+        Choose Pony
+        <span class="button-arrow" aria-hidden="true">▾</span>
+      </button>
+      <div id="pony-menu" class="pony-menu" role="menu" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main class="gallery">
+    <section class="pony-stage" aria-live="polite">
+      <div id="pony-frame" class="pony-frame" aria-label="Selected pony artwork"></div>
+      <p id="status" class="status" role="status">Loading ponies…</p>
+    </section>
+  </main>
+
+  <script src="./main.js"></script>
+</body>
+</html>
