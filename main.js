@@ -39,8 +39,15 @@ function setMenuOpen(isOpen) {
   menuButton.setAttribute("aria-expanded", String(isOpen));
 }
 
-// GitHub Pages uses the API. Python's local server provides a directory index,
-// which is parsed as a convenient zero-configuration development fallback.
+function getLocalPonyUrl(fileName) {
+  return `./${PONY_DIRECTORY}/${encodeURIComponent(fileName)}`;
+}
+
+// GitHub Pages uses the API only to discover file names. The artwork itself is
+// loaded from this site's pony directory so SVG documents stay same-origin and
+// are served as displayable site assets instead of raw GitHub downloads.
+// Python's local server provides a directory index, which is parsed as a
+// convenient zero-configuration development fallback.
 async function getPonyFiles() {
   if (GITHUB_USER && GITHUB_REPO) {
     const endpoint = `https://api.github.com/repos/${encodeURIComponent(GITHUB_USER)}/${encodeURIComponent(GITHUB_REPO)}/contents/${PONY_DIRECTORY}`;
@@ -55,7 +62,10 @@ async function getPonyFiles() {
     const entries = await response.json();
     return entries
       .filter((entry) => entry.type === "file" && entry.name.toLowerCase().endsWith(".svg"))
-      .map((entry) => ({ name: entry.name.slice(0, -4), url: entry.download_url }))
+      .map((entry) => ({
+        name: entry.name.slice(0, -4),
+        url: getLocalPonyUrl(entry.name)
+      }))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
